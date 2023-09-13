@@ -1,27 +1,27 @@
 const User = require('../models/user')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 
 
 require('dotenv').config()
 
+var CryptoJS = require("crypto-js");
 
 class AuthController {
     static async register(req, res) {
-        const {name, email, password} = req.body
-
+        const {jsonCrypto} = req.body
+        const json = CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
+        const {name, email, password} = JSON.parse(json)
+        
         if(!name || !email || !password)
             return res.status(400).send({ message: "name or email or password not provider" })
-
-        const salt = await bcrypt.genSalt(12)
-        const passHash = await bcrypt.hash(password, salt)
-
+        const passwordCrypt = CryptoJS.AES.encrypt(jsonCrypto, 'lasanha').toString()
+        
         const user = new User({
             name: name, 
             email: email, 
-            password: passHash
+            password: passwordCrypt
         })
 
+        
         try {
             await user.save()
             return res.status(201).send({message: "user created" })
