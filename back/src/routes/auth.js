@@ -4,6 +4,6 @@ const router = express.Router()
 
 router
     .post('/', AuthController.register)
-
+    .post('/login', AuthController.login)
 
 module.exports = router
