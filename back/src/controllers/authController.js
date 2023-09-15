@@ -51,12 +51,8 @@ class AuthController {
 
             const secret = 'lasanha'
             console.log(secret)
-            const token = jwt.sign(
-                {
-                    id: user._id,
-                },
-                secret,
-                {
+            const token = jwt.sign({id: user._id,},
+                secret,{
                     expiresIn: '1 day'
                 }
             )

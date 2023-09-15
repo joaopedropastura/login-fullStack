@@ -6,15 +6,18 @@ import UseBind from '../../hooks/useBind'
 import axios from "axios"
 import { useContext } from "react"
 import { AlertContext } from "../../context/alertContext"
+import { useNavigate } from "react-router-dom";
 
 const CryptoJS = require('crypto-js');
+
 
 const Login = () => {
 
     const [email, setEmail] = UseBind('')
     const [password, setPassword] = UseBind('')
     const { setMessage, setShow } = useContext(AlertContext)
-    
+    const navigate = useNavigate();
+
     const verifyUser = async () => {
         
         const login = { email, password }
@@ -22,7 +25,9 @@ const Login = () => {
         const jsonCrypto = CryptoJS.AES.encrypt(JSON.stringify(login).toString(), 'lasanha').toString()
         try {
             const res = await axios.post(`http://localhost:8080/login/users/login`, {jsonCrypto})
-            console.log(res)
+            sessionStorage.setItem("token",res.data.token);
+            navigate('/home')
+
         } catch (error) {
             setMessage(error.response.data.message)
             console.log(error)
