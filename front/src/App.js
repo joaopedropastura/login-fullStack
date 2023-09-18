@@ -4,9 +4,9 @@ import LoginPage from './pages/loginPage';
 import RegisterPage from './pages/registerPage';
 import ProtectedRoute from "./components/protectedRoute";
 import Profile from "./pages/profilePage";
-import ErrorMessage from "./components/errorMessage";
 import { AlertProvider } from "./context/alertContext";
 import Home from "./pages/homePage";
+
 function App() {
 
 

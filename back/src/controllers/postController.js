@@ -17,8 +17,38 @@ class PostController {
     
         if(!verified)
            return res.status(401).send({ message: "error: Invalid-token"})
-        const user = await User.findById( verified )
+        const { name, _id } = await User.findById( verified )
         
+        const newPost = new Post ({
+            userData : { name, _id },
+            title: title,
+            content: content,
+            likes: 0
+        })
+
+        try {
+            newPost.save()
+            return res.status(201).send({message: "post created"})
+        } catch {
+            return res.status(500).send({ message: "something faild" })
+        }
+    }
+
+
+    static async getAll(req, res) {
+        const posts = await Post.find()
+        try{
+            return res.status(200).send({ data : posts })
+
+        }catch(e){
+            return res.status(500).send({ error : e })
+        }
+    }
+
+    static async likes(req, res) {
+        const {jsonCrypto} = req.body
+        const json =CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
+        const {postId, userId, } = json
     }
 }
 
