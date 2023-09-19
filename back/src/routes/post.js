@@ -6,5 +6,6 @@ const router = express.Router()
 router
     .post('/', PostController.newPost)
     .get('/', PostController.getAll)
+    .post('/likes', PostController.likes)
 
 module.exports = router

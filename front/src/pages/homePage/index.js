@@ -9,11 +9,7 @@ import axios from "axios"
 
 const Home = () => {
     const[ flag, setFlag] = useState(false)
-
     const[ posts , setPosts ] = useState([])
-
-
-    
 
     const NewPostComponent = () => {
         return flag ? <NewPost/> : <></>
@@ -33,7 +29,7 @@ const Home = () => {
     return (
         <div id='home'>
             <div>
-                { posts && posts.map((p, i) => <PostComponent key={i} likes={p.likes} title={p.title} content={p.content} user={'@' + p.userData.name}/>)}
+                { posts && posts.map((p, i) => <PostComponent key={i} props={p} />)}
             </div>
             <NewPostComponent/>
             <div id='new-post-btn'>

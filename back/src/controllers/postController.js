@@ -11,24 +11,24 @@ class PostController {
         const json = CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
         const { token, title, content } = JSON.parse(json)
 
-        if(!title || !content)
+        if (!title || !content)
             return res.status(400).send({ message: "post data not found" })
         const verified = jwt.verify(token, 'lasanha').id
-    
-        if(!verified)
-           return res.status(401).send({ message: "error: Invalid-token"})
-        const { name, _id } = await User.findById( verified )
-        
-        const newPost = new Post ({
-            userData : { name, _id },
+
+
+        if (!verified)
+            return res.status(401).send({ message: "error: Invalid-token" })
+        const { name, _id } = await User.findById(verified)
+
+        const newPost = new Post({
+            userData: { name, _id },
             title: title,
-            content: content,
-            likes: 0
+            content: content
         })
 
         try {
             newPost.save()
-            return res.status(201).send({message: "post created"})
+            return res.status(201).send({ message: "post created" })
         } catch {
             return res.status(500).send({ message: "something faild" })
         }
@@ -37,18 +37,41 @@ class PostController {
 
     static async getAll(req, res) {
         const posts = await Post.find()
-        try{
-            return res.status(200).send({ data : posts })
+        try {
+            return res.status(200).send({ data: posts })
 
-        }catch(e){
-            return res.status(500).send({ error : e })
+        } catch (e) {
+            return res.status(500).send({ error: e })
         }
     }
 
     static async likes(req, res) {
-        const {jsonCrypto} = req.body
-        const json =CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
-        const {postId, userId, } = json
+        const { jsonCrypto } = req.body
+        const json = CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
+        const { postId, token } = JSON.parse(json)
+
+        const verified = jwt.verify(token, 'lasanha').id
+
+        if (!verified)
+            return res.status(401).send({ message: "error: Invalid-token" })
+
+        try {
+            const post = await Post.findById(postId)
+            const index = post.likes.indexOf(verified)
+
+            index !== -1 ?
+                post.likes.splice(index, 1) :
+                post.likes.push(verified)
+
+            post.save()
+            return res.status(200).send({ data: post })
+        } catch (e) {
+            console.log(e)
+            return res.status(500).send({ error: e })
+        }
+
+
+
     }
 }
 
