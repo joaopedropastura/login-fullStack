@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import axios from "axios"
 import CryptoJS from "crypto-js"
 import style from './style.module.sass'
+import CommentPostComponent from '../commentPostComponent';
 
 const PostComponent = ({props}) => {
 
@@ -65,10 +66,14 @@ const PostComponent = ({props}) => {
                     <Card.Text>
                         {props.content}
                     </Card.Text>
-                    
-                    <Button variant="outline-dark" onClick={() => UpdateLike()}>
-                        <ChangeLikeSVG/> {countLikes}
-                    </Button>
+                    <div id='btnActions'>
+                        <Button className='btn' variant="outline-dark" onClick={() => UpdateLike()}>
+                            <ChangeLikeSVG/> {countLikes}
+                        </Button>
+                        <div className='btn'>
+                            <CommentPostComponent props={post}/>
+                        </div>
+                    </div>
                 </Card.Body>
             </Card>
         </div>

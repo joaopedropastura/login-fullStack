@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <div>
+        <div id='nav'>
             <div className="supergraphic"></div>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
