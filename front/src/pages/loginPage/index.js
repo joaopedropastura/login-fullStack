@@ -1,12 +1,12 @@
 import { Form, Button } from "react-bootstrap"
 import FormField from "../../components/formField"
-import './style.sass'
 import ErrorMessage from "../../components/errorMessage"
 import UseBind from '../../hooks/useBind'
 import axios from "axios"
 import { useContext } from "react"
 import { AlertContext } from "../../context/alertContext"
 import { useNavigate } from "react-router-dom";
+import style from '../commom.module.sass'
 
 const CryptoJS = require('crypto-js');
 
@@ -35,16 +35,20 @@ const Login = () => {
     
     }
     return (
-        <>
-            <Form>
-                <FormField text="email" placeholder="digite seu email" {...setEmail}/>
-                <FormField text="senha" placeholder="digite sua senha" {...setPassword}/>                
-            </Form>
-            <ErrorMessage/>
-            <div className="loginBtn">
-                <Button onClick={() => verifyUser()}>Login</Button>
+        <div id={style.main}>
+            <h1>Social Media</h1>
+            <div id={style.content}>
+                <Form id={style.form}>
+                    <FormField text="email" placeholder="digite seu email" {...setEmail}/>
+                    <FormField text="senha" type="password" placeholder="digite sua senha" {...setPassword}/>                
+                </Form>
+                <ErrorMessage/>
+                <div className={style.loginBtn}>
+                    <Button onClick={() => verifyUser()}>Login</Button>
+                </div>
             </div>
-        </>
+            <span>Não possui uma conta? <button onClick={() => navigate('/register')}>Crie agora mesmo!</button></span>
+        </div>
     )
 }
 

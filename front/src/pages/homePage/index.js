@@ -1,4 +1,4 @@
-import './style.sass'
+import style from './style.module.sass'
 import NavBar from '../../components/navBar'
 import PostComponent from '../../components/postComponent'
 import NewPost from '../../components/newPostComponent'
@@ -25,21 +25,22 @@ const Home = () => {
         GetPosts()
     }, [])
 
-
     return (
-        <div id='home'>
-            <div>
-                { posts && posts.map((p, i) => <PostComponent key={i} props={p} />)}
+        <div id={style.home}>
+            <div className={style.postcards}>
+                <div className={style.postcardelem}>
+                    { posts && posts.map((p, i) => <PostComponent key={i} props={p} />)}
+                </div>
             </div>
             <NewPostComponent/>
-            <div id='new-post-btn'>
+            <div id={style.newpostbtn}>
                 <Button onClick={() => setFlag(!flag)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                     </svg>
                 </Button>
             </div>
-            <div id='navbar'>
+            <div id={style.navbar}>
                 <NavBar />
             </div>
             
