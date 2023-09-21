@@ -4,8 +4,9 @@ const PostController = require('../controllers/postController')
 const router = express.Router()
 
 router
-    .post('/', PostController.newPost)
     .get('/', PostController.getAll)
+    .post('/', PostController.newPost)
     .post('/likes', PostController.likes)
+    .post('/comments', PostController.comments)
 
 module.exports = router

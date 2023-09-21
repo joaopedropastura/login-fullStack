@@ -34,7 +34,6 @@ class PostController {
         }
     }
 
-
     static async getAll(req, res) {
         const posts = await Post.find()
         try {
@@ -69,9 +68,35 @@ class PostController {
             console.log(e)
             return res.status(500).send({ error: e })
         }
+    }
 
+    static async comments(req, res) {
+        // const { jsonCrypto } = req.body
+        // const json = CryptoJS.AES.decrypt(jsonCrypto, 'lasanha').toString(CryptoJS.enc.Utf8)
+        // const { idPost, comment, token } = JSON.parse(json)
+        const { idPost, comment, token } = req.body
 
+        const userVerified = jwt.verify(token, 'lasanha').id
 
+        if(!userVerified)
+            return res.status(401).send({ message: "error: invalid-token"})
+        const { name } = await User.findById(userVerified)
+        const post = await Post.findById(idPost)
+        console.log(post)
+        const newComment = new Post ({
+            content : comment,
+            userData: { name }
+        })
+        
+        try {
+            post.comments.push(newComment)
+            post.save()
+            return res.status(201).send({message: "comment created"})
+        } catch (e) {
+            console.log(e)
+            return res.status(500).send({ error: e })
+        }
+        
     }
 }
 

@@ -7,11 +7,16 @@ import { useContext } from "react"
 import { AlertContext } from "../../context/alertContext"
 import { useNavigate } from "react-router-dom";
 import style from '../commom.module.sass'
+import { useUserContext } from "../../context/userContext"
 
 const CryptoJS = require('crypto-js');
 
 
 const Login = () => {
+    const { token, createToken } = useUserContext();
+
+    createToken('aaaaaaaaaaa')
+    console.log(token)
 
     const [email, setEmail] = UseBind('')
     const [password, setPassword] = UseBind('')
